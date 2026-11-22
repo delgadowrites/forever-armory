@@ -1,0 +1,464 @@
+/*
+  Quest Log panel styles (Claude Code).
+  Loaded inside the panel's Shadow DOM, so these rules never touch the armory,
+  and the armory's styles.css never touches the panel.
+*/
+
+:host {
+  all: initial;
+}
+
+.ql-root {
+  --ql-bg: #171a21;
+  --ql-surface: #20242d;
+  --ql-surface-2: #2a2f3a;
+  --ql-border: #3a4050;
+  --ql-text: #e9e6df;
+  --ql-muted: #a9a59b;
+  --ql-accent: #e0a645;
+  --ql-accent-text: #1b1608;
+  --ql-pass: #6fcf8e;
+  --ql-pass-bg: #1d3326;
+  --ql-fail: #f08a7e;
+  --ql-fail-bg: #3a2220;
+  --ql-copy: #7fb7e8;
+  --ql-think: #c9a0f0;
+  --ql-width: 380px;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: flex-start;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ql-text);
+  transform: translateX(var(--ql-width));
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.ql-root[hidden] {
+  display: none;
+}
+
+.ql-root.ql-is-open {
+  transform: translateX(0);
+}
+
+.ql-root * {
+  box-sizing: border-box;
+}
+
+/* ----- Toggle tab (always visible) ----- */
+
+.ql-toggle {
+  pointer-events: auto;
+  margin-top: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border: 1px solid var(--ql-border);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background: var(--ql-bg);
+  color: var(--ql-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.ql-toggle-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.04em;
+}
+
+.ql-toggle:hover {
+  background: var(--ql-surface);
+}
+
+.ql-toggle:focus-visible,
+.ql-root button:focus-visible,
+.ql-root a:focus-visible,
+.ql-root select:focus-visible {
+  outline: 2px solid var(--ql-accent);
+  outline-offset: 2px;
+}
+
+/* ----- Panel ----- */
+
+.ql-panel {
+  pointer-events: auto;
+  width: var(--ql-width);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--ql-bg);
+  border-left: 1px solid var(--ql-border);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.35);
+}
+
+.ql-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--ql-border);
+}
+
+.ql-eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ql-accent);
+}
+
+.ql-chapter {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ql-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ----- Current quest ----- */
+
+.ql-quest-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ql-quest-id {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ql-muted);
+}
+
+.ql-zone,
+.ql-done-badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+}
+
+.ql-zone-copy {
+  color: var(--ql-copy);
+}
+
+.ql-zone-think {
+  color: var(--ql-think);
+}
+
+.ql-done-badge {
+  color: var(--ql-pass);
+}
+
+.ql-quest-title {
+  margin: 6px 0 0;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.ql-label {
+  margin: 16px 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ql-muted);
+}
+
+.ql-ticket {
+  margin: 0;
+}
+
+.ql-criteria,
+.ql-links {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ql-criteria li + li,
+.ql-links li + li {
+  margin-top: 4px;
+}
+
+.ql-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ql-chip {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--ql-surface-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+}
+
+.ql-links a {
+  color: var(--ql-accent);
+}
+
+.ql-check,
+.ql-next {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ql-accent);
+  color: var(--ql-accent-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ql-check:hover,
+.ql-next:hover {
+  filter: brightness(1.08);
+}
+
+.ql-check:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.ql-next {
+  margin-top: 10px;
+}
+
+.ql-empty {
+  margin: 0;
+  color: var(--ql-muted);
+}
+
+/* ----- Check results ----- */
+
+.ql-results:empty {
+  display: none;
+}
+
+.ql-summary {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+.ql-summary-pass {
+  color: var(--ql-pass);
+}
+
+.ql-summary-fail {
+  color: var(--ql-fail);
+}
+
+.ql-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ql-row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.ql-row-pass {
+  background: var(--ql-pass-bg);
+  border-color: var(--ql-pass);
+}
+
+.ql-row-fail {
+  background: var(--ql-fail-bg);
+  border-color: var(--ql-fail);
+}
+
+.ql-row-mark {
+  flex: none;
+}
+
+.ql-row-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ql-row-line {
+  margin: 0;
+  font-size: 14px;
+}
+
+.ql-row-line + .ql-row-line {
+  margin-top: 4px;
+}
+
+.ql-complete {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ql-pass);
+  background: var(--ql-pass-bg);
+}
+
+.ql-complete p {
+  margin: 0;
+}
+
+.ql-complete-title {
+  font-weight: 700;
+  color: var(--ql-pass);
+}
+
+/* ----- Quest list ----- */
+
+.ql-list {
+  border-top: 1px solid var(--ql-border);
+  padding-top: 4px;
+}
+
+.ql-chapter-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.ql-chapter-pick select {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 6px;
+  border: 1px solid var(--ql-border);
+  border-radius: 6px;
+  background: var(--ql-surface);
+  color: var(--ql-text);
+  font: inherit;
+}
+
+.ql-quest-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ql-quest-link {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--ql-surface);
+  color: var(--ql-text);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ql-quest-link:hover:not(:disabled) {
+  background: var(--ql-surface-2);
+}
+
+.ql-quest-link:disabled {
+  color: var(--ql-muted);
+  cursor: not-allowed;
+}
+
+.ql-quest-link.ql-is-selected {
+  border-color: var(--ql-accent);
+}
+
+.ql-quest-link-id {
+  flex: none;
+  font-weight: 700;
+  color: var(--ql-muted);
+}
+
+/* ----- Phone widths: bottom sheet ----- */
+
+@media (max-width: 640px) {
+  .ql-root {
+    top: auto;
+    left: 0;
+    height: 75vh;
+    flex-direction: column;
+    align-items: stretch;
+    transform: translateY(calc(75vh));
+  }
+
+  .ql-root.ql-is-open {
+    transform: translateY(0);
+  }
+
+  .ql-toggle {
+    align-self: flex-end;
+    margin: 0 16px 0 0;
+    transform: translateY(-100%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    flex-direction: row;
+    padding: 8px 14px;
+    border: 1px solid var(--ql-border);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .ql-toggle-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .ql-panel {
+    width: 100%;
+    height: 100%;
+    border-left: 0;
+    border-top: 1px solid var(--ql-border);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .ql-header,
+  .ql-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ql-root {
+    transition: none;
+  }
+}
