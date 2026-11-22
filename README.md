@@ -8,6 +8,8 @@ I'm building it while I learn JavaScript. Each new concept adds a feature to the
 
 | Field | Value |
 |---|---|
+| Name | Phord Taurus |
+| Region | US Normal |
 | Class | Druid |
 | Race | Tauren (Horde) |
 | Level | 36 |

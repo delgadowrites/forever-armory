@@ -7,3 +7,6 @@
 - Quest Log panel (`quest-log/`): lesson panel, Check quest button with Wanted / Got results, progress saved in the browser.
 - Chapter 1 quests: The Character Card (quests 1-1 to 1-5).
 - README and `.gitignore`.
+
+### Changed
+- Chapter 1 quests now check for my character's real name (Phord Taurus) and region (US Normal).

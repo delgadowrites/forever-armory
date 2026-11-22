@@ -65,9 +65,9 @@ window.QL_DATA = {
       chapter: 1,
       title: "Name on the card",
       ticket:
-        "When the page loads, script.js writes your character's name and surname into the card's heading. The heading stays empty in index.html: JavaScript is what fills it in.",
+        "When the page loads, script.js writes your character's name and surname (Phord Taurus) into the card's heading. The heading stays empty in index.html: JavaScript is what fills it in.",
       acceptance: [
-        "#character-name shows your character's name and surname, with one space between them",
+        '#character-name shows exactly "Phord Taurus" (name, one space, surname)',
         "#character-name is still empty in index.html",
       ],
       concepts: ["document.querySelector", "textContent"],
@@ -77,8 +77,7 @@ window.QL_DATA = {
         "https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent",
       ],
       checks: [
-        (h) => h.hasText("character-name"),
-        (h) => h.wordCount("character-name", 2),
+        (h) => h.textEquals("character-name", "Phord Taurus"),
         (h) => h.emptyInFile("character-name"),
       ],
     },
@@ -116,10 +115,10 @@ window.QL_DATA = {
       chapter: 1,
       title: "The details box",
       ticket:
-        "Add a details box to the card for extra facts: your region and your professions. Like the rest of the card, the box's spots are empty in index.html and script.js fills them in.",
+        "Add a details box to the card for extra facts: your region (US Normal) and your professions. Like the rest of the card, the box's spots are empty in index.html and script.js fills them in.",
       acceptance: [
         'Inside #character-card, a <div> with id "character-details"',
-        'Inside #character-details, a <p> with id "character-region" that shows your region',
+        'Inside #character-details, a <p> with id "character-region" that shows text including "US Normal"',
         'Inside #character-details, a <p> with id "character-professions" that shows text including "Skinning" and "Leatherworking"',
         "#character-region and #character-professions are empty in index.html",
       ],
@@ -134,7 +133,7 @@ window.QL_DATA = {
         (h) => h.isInside("character-details", "character-card"),
         (h) => h.isTag("character-region", "p"),
         (h) => h.isInside("character-region", "character-details"),
-        (h) => h.hasText("character-region"),
+        (h) => h.textIncludes("character-region", "US Normal"),
         (h) => h.isTag("character-professions", "p"),
         (h) => h.isInside("character-professions", "character-details"),
         (h) => h.textIncludes("character-professions", "Skinning"),
